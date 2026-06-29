@@ -1,1 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethan Choularton</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg:       #0b0e13;
+      --surface:  #13181f;
+      --border:   #1e2530;
+      --muted:    #3a4454;
+      --text:     #c8d4e3;
+      --heading:  #eef2f8;
+      --accent:   #4af0a0;   /* simulation-green — data output on a dark terminal */
+      --accent2:  #5b8cff;   /* orbital blue */
+      --fire:     #ff6b35;   /* wildfire orange */
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 2.5rem;
+      background: rgba(11,14,19,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 0.85rem; letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 900px; margin: 0 auto;
+      position: relative;
+    }
+
+    /* live particle canvas behind hero */
+    #canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+      opacity: 0.35;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.18em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700; line-height: 1.05;
+      color: var(--heading); letter-spacing: -0.02em;
+      margin-bottom: 1.4rem;
+    }
+    h1 span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 1.1rem; max-width: 560px;
+      color: var(--text); margin-bottom: 2.4rem;
+    }
+
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px; font-size: 0.88rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0b0e13;
+      border: 2px solid var(--accent);
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      border: 2px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 6rem 2.5rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700; color: var(--heading);
+      letter-spacing: -0.02em; margin-bottom: 2.8rem;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .card-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.25rem 0.6rem;
+      border-radius: 4px; margin-bottom: 1rem;
+    }
+    .tag-sim   { background: rgba(74,240,160,0.12); color: var(--accent); }
+    .tag-phys  { background: rgba(91,140,255,0.12); color: var(--accent2); }
+    .tag-quant { background: rgba(255,107,53,0.12); color: var(--fire); }
+    .tag-game  { background: rgba(200,212,227,0.08); color: var(--text); }
+
+    .card h3 {
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--heading); margin-bottom: 0.55rem;
+    }
+    .card p { font-size: 0.9rem; color: var(--text); margin-bottom: 1.2rem; }
+
+    .card-meta {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      margin-bottom: 1.1rem;
+    }
+    .pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; padding: 0.2rem 0.55rem;
+      border-radius: 3px; background: var(--border);
+      color: var(--muted); letter-spacing: 0.05em;
+    }
+
+    .card-link {
+      font-size: 0.82rem; color: var(--accent);
+      text-decoration: none; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* accent bar on card */
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .card:hover::before { opacity: 1; }
+    .card.fire::before { background: linear-gradient(90deg, var(--fire), transparent); }
+    .card.blue::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.2rem;
+    }
+    .skill-group h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .skill-group ul { list-style: none; }
+    .skill-group li {
+      font-size: 0.88rem; color: var(--text);
+      padding: 0.2rem 0; border-bottom: 1px solid var(--border);
+    }
+    .skill-group li:last-child { border-bottom: none; }
+
+    /* ── EDUCATION ── */
+    .edu-item {
+      border-left: 2px solid var(--border);
+      padding-left: 1.4rem; margin-bottom: 2rem;
+      position: relative;
+    }
+    .edu-item::before {
+      content: '';
+      position: absolute; left: -5px; top: 6px;
+      width: 8px; height: 8px;
+      border-radius: 50%; background: var(--accent);
+    }
+    .edu-item h3 { font-size: 1rem; color: var(--heading); font-weight: 600; }
+    .edu-item .edu-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; color: var(--muted); margin: 0.2rem 0 0.5rem;
+    }
+    .edu-item p { font-size: 0.88rem; }
+
+    /* ── CONTACT ── */
+    .contact-row {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 4rem 1.2rem; }
+      .hero { padding: 7rem 1.2rem 3rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<nav>
+  <span class="nav-logo">E-CHO42</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" style="position:relative;z-index:1;">
+  <p class="hero-eyebrow">// computational math · physics · simulation</p>
+  <h1>Ethan<br><span>Choularton</span></h1>
+  <p class="hero-sub">
+    I build simulations — emergent systems, physical models, agent-based dynamics.
+    Studying Computational & Applied Mathematics at Colorado School of Mines.
+  </p>
+  <div class="hero-links">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="https://github.com/E-Cho42" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+    <a href="mailto:ethan_choularton@mines.edu" class="btn btn-ghost">Email</a>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">// work</p>
+  <h2>Projects</h2>
+  <div class="projects-grid">
+
+    <div class="card fire">
+      <span class="card-tag tag-quant">Climate Sim</span>
+      <h3>Wildfire Spread Simulator</h3>
+      <p>Cellular automaton modelling fire propagation across terrain — wind, fuel moisture, and slope influence spread dynamics in real time.</p>
+      <div class="card-meta">
+        <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Matplotlib</span>
+      </div>
+      <a href="https://github.com/E-Cho42/Wild_Fire" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-sim">Agent-Based</span>
+      <h3>AgentEcon — Economy Simulator</h3>
+      <p>500 heterogeneous citizen agents and 10 competing firms produce emergent inflation, business cycles, and wealth inequality from purely local rules. Stochastic macro shocks drawn from a Bernoulli process.</p>
+      <div class="card-meta">
+        <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">Matplotlib</span>
+      </div>
+      <a href="https://github.com/E-Cho42/Agent_Econ" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card blue">
+      <span class="card-tag tag-phys">Physics Sim</span>
+      <h3>Solar System Simulator</h3>
+      <p>N-body gravitational simulation of the solar system built in C++. Numerical integration of orbital mechanics with real planetary data.</p>
+      <div class="card-meta">
+        <span class="pill">C++</span><span class="pill">N-body</span><span class="pill">Orbital Mechanics</span>
+      </div>
+      <a href="https://github.com/E-Cho42/solarSystemSimulator" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-sim">Agent-Based</span>
+      <h3>Penguin Huddle Simulator</h3>
+      <p>Multi-agent thermodynamics simulation modelling emperor penguin heat exchange across 150 autonomous agents. Emergent huddle formation from proximity repulsion, damping, and Brownian perturbations.</p>
+      <div class="card-meta">
+        <span class="pill">Python</span><span class="pill">Thermodynamics</span><span class="pill">Multi-agent</span>
+      </div>
+      <a href="https://github.com/E-Cho42/n-body-penguin-thermodynamical-huddle-simulator" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-quant">Quantitative</span>
+      <h3>Trading Backtester</h3>
+      <p>Backtests a moving average crossover strategy on NVDA using Yahoo Finance data. Visualises buy/sell signals on a price chart.</p>
+      <div class="card-meta">
+        <span class="pill">Python</span><span class="pill">Pandas</span><span class="pill">Time-Series</span>
+      </div>
+      <a href="https://github.com/E-Cho42/TradingBacktester" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-phys">Probability</span>
+      <h3>Poker Bot</h3>
+      <p>Calculates pre-flop win probability in Texas Hold'em and outputs an optimal bet sizing recommendation based on expected value.</p>
+      <div class="card-meta">
+        <span class="pill">C++</span><span class="pill">Probability</span><span class="pill">Game Theory</span>
+      </div>
+      <a href="https://github.com/E-Cho42/PokerBot" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-game">Game</span>
+      <h3>Maskquerade — Halloween Game Jam</h3>
+      <p>Fast-paced 2D boss rush built with Pygame for the 2025 Halloween Game Jam. Defeat bosses, claim their masks, wield their powers.</p>
+      <div class="card-meta">
+        <span class="pill">Python</span><span class="pill">Pygame</span>
+      </div>
+      <a href="https://github.com/E-Cho42/halloween_game_jam" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-game">Game</span>
+      <h3>Penguin Ski Game</h3>
+      <p>A simple 2D top-down ski game starring a penguin. Built for fun, shipped clean.</p>
+      <div class="card-meta">
+        <span class="pill">Python</span><span class="pill">Pygame</span>
+      </div>
+      <a href="https://github.com/E-Cho42/PenguinSkiGame" target="_blank" class="card-link">View on GitHub ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">// tools</p>
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h4>Languages</h4>
+      <ul>
+        <li>Python</li>
+        <li>C++</li>
+        <li>R</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Libraries</h4>
+      <ul>
+        <li>NumPy</li>
+        <li>Pandas</li>
+        <li>Matplotlib</li>
+        <li>Jupyter</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Methods</h4>
+      <ul>
+        <li>Numerical Modelling</li>
+        <li>Statistical Analysis</li>
+        <li>Agent-Based Sim</li>
+        <li>Asymptotic Approx.</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Tools</h4>
+      <ul>
+        <li>Git / GitHub</li>
+        <li>SolidWorks</li>
+        <li>Excel</li>
+        <li>LaTeX</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">// background</p>
+  <h2>Education</h2>
+
+  <div class="edu-item">
+    <h3>Colorado School of Mines</h3>
+    <p class="edu-meta">B.S. Computational & Applied Mathematics · Minor: Physics · Expected May 2028</p>
+    <p>Linear Algebra, Statistics, Asymptotic Analysis, Programming Concepts & Design, Modern Physics (Relativity & Quantum).</p>
+  </div>
+
+  <div class="edu-item">
+    <h3>University of Canterbury, NZ</h3>
+    <p class="edu-meta">Study Abroad · 2026</p>
+    <p>Quantum Mechanics (wavefunctions, operators), Partial Differential Equations (heat/wave equations), Abstract Algebra (group & ring theory).</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">// get in touch</p>
+  <h2>Contact</h2>
+  <p>Open to internships, research assistantships, and interesting problems.</p>
+  <div class="contact-row">
+    <a href="mailto:ethan_choularton@mines.edu" class="btn btn-primary">ethan_choularton@mines.edu</a>
+    <a href="https://github.com/E-Cho42" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Ethan Choularton · Built with GitHub Pages</p>
+</footer>
+
+<!-- AMBIENT PARTICLE CANVAS -->
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const COLORS = ['#4af0a0','#5b8cff','#ff6b35'];
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.r = Math.random() * 1.5 + 0.3;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      this.alpha = Math.random() * 0.6 + 0.2;
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    // draw faint connection lines
+    ctx.globalAlpha = 1;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 90) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = '#4af0a0';
+          ctx.globalAlpha = (1 - d/90) * 0.08;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+</script>
+
+</body>
+</html>

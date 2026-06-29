@@ -26,15 +26,15 @@
     .hero-eyebrow { font-family:'Space Mono',monospace; font-size:0.78rem; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:1.2rem; }
     h1 { font-size:clamp(2.8rem,6vw,5rem); font-weight:700; line-height:1.05; color:var(--heading); letter-spacing:-0.02em; margin-bottom:1.4rem; }
     h1 span { color:var(--accent); }
-    .hero-sub { font-size:1.1rem; max-width:560px; color:var(--text); margin-bottom:2.4rem; }
-    .hero-links { display:flex; gap:1rem; flex-wrap:wrap; }
+    .hero-sub { font-size:1.1rem; max-width:720px; color:var(--text); margin-bottom:1.5rem; }
+    .hero-links { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; }
     .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.4rem; border-radius:6px; font-size:0.88rem; font-weight:600; text-decoration:none; transition:all 0.2s; font-family:'Space Grotesk',sans-serif; }
     .btn-primary { background:var(--accent); color:#0b0e13; border:2px solid var(--accent); }
     .btn-primary:hover { background:transparent; color:var(--accent); }
     .btn-ghost { background:transparent; color:var(--text); border:2px solid var(--border); }
     .btn-ghost:hover { border-color:var(--accent); color:var(--accent); }
 
-    .section-wrap { position:relative; z-index:1; padding:5rem 2.5rem; max-width:1000px; margin:0 auto; }
+    .section-wrap { position:relative; z-index:1; padding:5rem 2.5rem; max-width:1000px; margin:0 auto; scroll-margin-top: 5rem; }
     .section-label { font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase; margin-bottom:0.6rem; }
     h2 { font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:700; color:var(--heading); letter-spacing:-0.02em; margin-bottom:3rem; }
 
@@ -65,7 +65,7 @@
     .card-body h3 { font-size:1.25rem; font-weight:700; color:var(--heading); margin-bottom:0.6rem; }
     .card-body p { font-size:0.92rem; color:var(--text); margin-bottom:1.2rem; }
     .card-pills { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.2rem; }
-    .pill { font-family:'Space Mono',monospace; font-size:0.65rem; padding:0.2rem 0.55rem; border-radius:3px; background:var(--border); color:var(--muted); }
+    .pill { font-family:'Space Mono',monospace; font-size:0.65rem; padding:0.2rem 0.55rem; border-radius:3px; background:var(--border); color:var(--text); }
     .card-link { font-size:0.85rem; color:var(--accent); text-decoration:none; font-weight:600; }
     .card-link:hover { text-decoration:underline; }
 
@@ -120,7 +120,18 @@
 <div class="hero">
   <p class="hero-eyebrow">// computational math · physics · simulation</p>
   <h1>Ethan<br><span>Choularton</span></h1>
-  <p class="hero-sub">I build simulations — emergent systems, physical models, agent-based dynamics. Studying Computational & Applied Mathematics at Colorado School of Mines.</p>
+  <p class="hero-sub">
+    I’m a Computational and Applied Mathematics student at the Colorado School of Mines focused on quantitative modeling, simulation, and software development. I build tools that turn data into decisions—ranging from trading strategy evaluation to poker probability models and modular simulation frameworks.
+  </p>
+  <p class="hero-sub">
+    I’ve developed projects in Python and C++ that apply statistics, probability, and algorithmic logic to real-world problems. I care about clean architecture, reproducibility, and performance, and I’m comfortable handling the full workflow from data ingestion to model validation.
+  </p>
+  <p class="hero-sub" style="font-size: 0.95rem; opacity: 0.85;">
+    I also bring experience from technical support and mechanical roles, where clear communication, structured troubleshooting, and fast prioritization were essential.
+  </p>
+  <p class="hero-sub" style="font-size: 0.95rem; opacity: 0.85;">
+    I’m interested in opportunities that tackle complex, data-driven problems using quantitative thinking, computational modeling, and solid engineering.
+  </p>
   <div class="hero-links">
     <a href="#projects" class="btn btn-primary">View Projects</a>
     <a href="https://github.com/E-Cho42" target="_blank" class="btn btn-ghost">GitHub ↗</a>
@@ -202,7 +213,7 @@
       <div class="card-pills"><span class="pill">C++</span><span class="pill">N-body</span><span class="pill">Orbital Mechanics</span></div>
       <a href="https://github.com/E-Cho42/solarSystemSimulator" target="_blank" class="card-link">View on GitHub ↗</a>
     </div>
-    <div class="carousel" data-images='["Images/solarSystemSimulator/solar_1.png","Images/solarSystemSimulator/solar_2.png"]'></div>
+    <div class="carousel" data-images='["Images/solarSystemSimulator/solar_1.png","Images/solarSystemSimulator/solar_2.png","Images/solarSystemSimulator/solar_3.png","Images/solarSystemSimulator/solar_4.png"]'></div>
   </div>
 
   <div class="project-card">

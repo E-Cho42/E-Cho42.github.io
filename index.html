@@ -179,6 +179,53 @@
     }
     .card-link:hover { text-decoration: underline; }
 
+    /* card image */
+    .card-img {
+      width: 100%; border-radius: 6px;
+      margin-bottom: 1.1rem;
+      border: 1px solid var(--border);
+      display: block; object-fit: cover;
+      max-height: 200px;
+    }
+    .card-img-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.5rem; margin-bottom: 1.1rem;
+    }
+    .card-img-grid img {
+      width: 100%; border-radius: 5px;
+      border: 1px solid var(--border);
+      object-fit: cover; height: 130px;
+    }
+
+    /* wip badge */
+    .wip-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.25rem 0.6rem;
+      border-radius: 4px; margin-bottom: 1rem;
+      background: rgba(255,107,53,0.15); color: var(--fire);
+      border: 1px solid rgba(255,107,53,0.3);
+    }
+    .wip-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--fire);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+
+    /* section divider */
+    .project-group { margin-bottom: 3rem; }
+    .project-group-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
     /* accent bar on card */
     .card::before {
       content: '';
@@ -291,89 +338,122 @@
 <section id="projects">
   <p class="section-label">// work</p>
   <h2>Projects</h2>
-  <div class="projects-grid">
 
-    <div class="card fire">
-      <span class="card-tag tag-quant">Climate Sim</span>
-      <h3>Wildfire Spread Simulator</h3>
-      <p>Cellular automaton modelling fire propagation across terrain — wind, fuel moisture, and slope influence spread dynamics in real time.</p>
-      <div class="card-meta">
-        <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Matplotlib</span>
+  <!-- SIMULATIONS -->
+  <div class="project-group">
+    <p class="project-group-label">Simulations</p>
+    <div class="projects-grid">
+
+      <div class="card fire">
+        <div class="wip-badge"><span class="wip-dot"></span> In Progress</div>
+        <span class="card-tag tag-quant">Climate Sim</span>
+        <h3>Wildfire Spread Simulator</h3>
+        <p>Cellular automaton modelling fire propagation across terrain — wind, fuel moisture, and slope influence spread dynamics in real time.</p>
+        <div class="card-meta">
+          <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Matplotlib</span>
+        </div>
+        <a href="https://github.com/E-Cho42/Wild_Fire" target="_blank" class="card-link">View on GitHub ↗</a>
       </div>
-      <a href="https://github.com/E-Cho42/Wild_Fire" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
 
-    <div class="card">
-      <span class="card-tag tag-sim">Agent-Based</span>
-      <h3>AgentEcon — Economy Simulator</h3>
-      <p>500 heterogeneous citizen agents and 10 competing firms produce emergent inflation, business cycles, and wealth inequality from purely local rules. Stochastic macro shocks drawn from a Bernoulli process.</p>
-      <div class="card-meta">
-        <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">Matplotlib</span>
+      <div class="card">
+        <span class="card-tag tag-sim">Agent-Based</span>
+        <h3>AgentEcon — Economy Simulator</h3>
+        <p>500 heterogeneous citizen agents and 10 competing firms produce emergent inflation, business cycles, and wealth inequality from purely local rules. Stochastic macro shocks drawn from a Bernoulli process.</p>
+        <div class="card-img-grid">
+          <img src="Images/Agent_Econ/market_radar_analysis_0.png" alt="AgentEcon stable run" />
+          <img src="Images/Agent_Econ/market_radar_analysis_3.png" alt="AgentEcon macro shock run" />
+        </div>
+        <div class="card-meta">
+          <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">Matplotlib</span>
+        </div>
+        <a href="https://github.com/E-Cho42/Agent_Econ" target="_blank" class="card-link">View on GitHub ↗</a>
       </div>
-      <a href="https://github.com/E-Cho42/Agent_Econ" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
 
-    <div class="card blue">
-      <span class="card-tag tag-phys">Physics Sim</span>
-      <h3>Solar System Simulator</h3>
-      <p>N-body gravitational simulation of the solar system built in C++. Numerical integration of orbital mechanics with real planetary data.</p>
-      <div class="card-meta">
-        <span class="pill">C++</span><span class="pill">N-body</span><span class="pill">Orbital Mechanics</span>
+      <div class="card blue">
+        <span class="card-tag tag-phys">Physics Sim</span>
+        <h3>Solar System Simulator</h3>
+        <p>N-body gravitational simulation of the solar system built in C++. Numerical integration of orbital mechanics with real planetary data.</p>
+        <div class="card-img-grid">
+          <img src="Images/solarSystemSimulator/Screenshot 2026-06-29 at 4.48.26 PM.png" alt="Solar system sim 1" />
+          <img src="Images/solarSystemSimulator/Screenshot 2026-06-29 at 4.48.52 PM.png" alt="Solar system sim 2" />
+        </div>
+        <div class="card-meta">
+          <span class="pill">C++</span><span class="pill">N-body</span><span class="pill">Orbital Mechanics</span>
+        </div>
+        <a href="https://github.com/E-Cho42/solarSystemSimulator" target="_blank" class="card-link">View on GitHub ↗</a>
       </div>
-      <a href="https://github.com/E-Cho42/solarSystemSimulator" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
 
-    <div class="card">
-      <span class="card-tag tag-sim">Agent-Based</span>
-      <h3>Penguin Huddle Simulator</h3>
-      <p>Multi-agent thermodynamics simulation modelling emperor penguin heat exchange across 150 autonomous agents. Emergent huddle formation from proximity repulsion, damping, and Brownian perturbations.</p>
-      <div class="card-meta">
-        <span class="pill">Python</span><span class="pill">Thermodynamics</span><span class="pill">Multi-agent</span>
+      <div class="card">
+        <span class="card-tag tag-sim">Agent-Based</span>
+        <h3>Penguin Huddle Simulator</h3>
+        <p>Multi-agent thermodynamics simulation modelling emperor penguin heat exchange across 150 autonomous agents. Emergent huddle formation from proximity repulsion, damping, and Brownian perturbations.</p>
+        <div class="card-img-grid">
+          <img src="Images/n-body-penguin-thermodynamical-huddle-simulator/example.png" alt="Penguin huddle sim" />
+          <img src="Images/n-body-penguin-thermodynamical-huddle-simulator/example_2.png" alt="Penguin huddle sim 2" />
+        </div>
+        <div class="card-meta">
+          <span class="pill">Python</span><span class="pill">Thermodynamics</span><span class="pill">Multi-agent</span>
+        </div>
+        <a href="https://github.com/E-Cho42/n-body-penguin-thermodynamical-huddle-simulator" target="_blank" class="card-link">View on GitHub ↗</a>
       </div>
-      <a href="https://github.com/E-Cho42/n-body-penguin-thermodynamical-huddle-simulator" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
 
-    <div class="card">
-      <span class="card-tag tag-quant">Quantitative</span>
-      <h3>Trading Backtester</h3>
-      <p>Backtests a moving average crossover strategy on NVDA using Yahoo Finance data. Visualises buy/sell signals on a price chart.</p>
-      <div class="card-meta">
-        <span class="pill">Python</span><span class="pill">Pandas</span><span class="pill">Time-Series</span>
-      </div>
-      <a href="https://github.com/E-Cho42/TradingBacktester" target="_blank" class="card-link">View on GitHub ↗</a>
     </div>
-
-    <div class="card">
-      <span class="card-tag tag-phys">Probability</span>
-      <h3>Poker Bot</h3>
-      <p>Calculates pre-flop win probability in Texas Hold'em and outputs an optimal bet sizing recommendation based on expected value.</p>
-      <div class="card-meta">
-        <span class="pill">C++</span><span class="pill">Probability</span><span class="pill">Game Theory</span>
-      </div>
-      <a href="https://github.com/E-Cho42/PokerBot" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
-
-    <div class="card">
-      <span class="card-tag tag-game">Game</span>
-      <h3>Maskquerade — Halloween Game Jam</h3>
-      <p>Fast-paced 2D boss rush built with Pygame for the 2025 Halloween Game Jam. Defeat bosses, claim their masks, wield their powers.</p>
-      <div class="card-meta">
-        <span class="pill">Python</span><span class="pill">Pygame</span>
-      </div>
-      <a href="https://github.com/E-Cho42/halloween_game_jam" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
-
-    <div class="card">
-      <span class="card-tag tag-game">Game</span>
-      <h3>Penguin Ski Game</h3>
-      <p>A simple 2D top-down ski game starring a penguin. Built for fun, shipped clean.</p>
-      <div class="card-meta">
-        <span class="pill">Python</span><span class="pill">Pygame</span>
-      </div>
-      <a href="https://github.com/E-Cho42/PenguinSkiGame" target="_blank" class="card-link">View on GitHub ↗</a>
-    </div>
-
   </div>
+
+  <!-- QUANTITATIVE -->
+  <div class="project-group">
+    <p class="project-group-label">Quantitative & Finance</p>
+    <div class="projects-grid">
+
+      <div class="card">
+        <span class="card-tag tag-quant">Quantitative</span>
+        <h3>Trading Backtester</h3>
+        <p>Backtests a moving average crossover strategy across multiple tickers using Yahoo Finance data. Visualises buy/sell signals on price charts.</p>
+        <div class="card-img-grid">
+          <img src="Images/TradingBacktester/NVDA Price with Buy and Sell Signals.png" alt="NVDA trading signals" />
+          <img src="Images/TradingBacktester/AAPL Price with Buy and Sell Signals.png" alt="AAPL trading signals" />
+        </div>
+        <div class="card-meta">
+          <span class="pill">Python</span><span class="pill">Pandas</span><span class="pill">Time-Series</span>
+        </div>
+        <a href="https://github.com/E-Cho42/TradingBacktester" target="_blank" class="card-link">View on GitHub ↗</a>
+      </div>
+
+      <div class="card">
+        <span class="card-tag tag-phys">Probability</span>
+        <h3>Poker Bot</h3>
+        <p>Calculates pre-flop win probability in Texas Hold'em and outputs an optimal bet sizing recommendation based on expected value.</p>
+        <div class="card-meta">
+          <span class="pill">C++</span><span class="pill">Probability</span><span class="pill">Game Theory</span>
+        </div>
+        <a href="https://github.com/E-Cho42/PokerBot" target="_blank" class="card-link">View on GitHub ↗</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GAMES -->
+  <div class="project-group">
+    <p class="project-group-label">Games</p>
+    <div class="projects-grid">
+
+      <div class="card">
+        <span class="card-tag tag-game">Game Jam</span>
+        <h3>Maskquerade — Halloween Game Jam</h3>
+        <p>Fast-paced 2D boss rush built with Pygame for the 2025 Halloween Game Jam. Defeat bosses, claim their masks, wield their powers.</p>
+        <div class="card-img-grid">
+          <img src="Images/halloween_game_jam/Screenshot 2026-06-29 at 4.52.38 PM.png" alt="Maskquerade gameplay" />
+          <img src="Images/halloween_game_jam/Screenshot 2026-06-29 at 4.54.35 PM.png" alt="Maskquerade boss select" />
+        </div>
+        <div class="card-meta">
+          <span class="pill">Python</span><span class="pill">Pygame</span>
+        </div>
+        <a href="https://github.com/E-Cho42/halloween_game_jam" target="_blank" class="card-link">View on GitHub ↗</a>
+      </div>
+
+    </div>
+  </div>
+
 </section>
 
 <!-- SKILLS -->
